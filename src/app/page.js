@@ -258,7 +258,7 @@ export default function Dashboard() {
       <header className="text-center py-4 animate-fade-in relative">
         <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-2 flex justify-center items-center gap-3">
           <FaWallet className="text-primary" />
-          <span className="bg-gradient-to-br from-purple-500 to-blue-500 bg-clip-text text-transparent">AIMuss</span> Finance
+          Finance <span className="bg-gradient-to-br from-purple-500 to-blue-500 bg-clip-text text-transparent">Muss</span>
         </h1>
         <p className="text-slate-400 text-lg mb-4">Sistem Pencatat Keuangan & Analisis Grafik</p>
       </header>
@@ -629,7 +629,7 @@ export default function Dashboard() {
       </main>
 
       <footer className="text-center py-6 text-slate-500 text-sm">
-        <p>&copy; {new Date().getFullYear()} AIMuss Finance System. Built with Next.js & Tailwind CSS.</p>
+        <p>&copy; {new Date().getFullYear()} Finance Muss. Built with Next.js & Tailwind CSS.</p>
       </footer>
     </div>
   );

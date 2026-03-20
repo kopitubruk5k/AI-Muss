@@ -8,7 +8,7 @@ const outfit = Outfit({
 });
 
 export const metadata = {
-  title: "AIMuss Finance System",
+  title: "Finance Muss",
   description: "Sistem Pencatat Keuangan & Analisis Grafik",
 };
 
