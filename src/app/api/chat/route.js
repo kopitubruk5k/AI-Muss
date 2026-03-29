@@ -3,8 +3,6 @@ import { GoogleGenAI } from '@google/genai';
 
 export const dynamic = 'force-dynamic';
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-
 const NOTION_TOKEN = process.env.NOTION_TOKEN;
 const DATABASE_ID = process.env.NOTION_TRANS_DB_ID;
 
@@ -73,6 +71,13 @@ ${recentList}
 
 export async function POST(request) {
   try {
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      return NextResponse.json({ error: 'GEMINI_API_KEY belum dikonfigurasi di .env.local' }, { status: 500 });
+    }
+
+    const ai = new GoogleGenAI({ apiKey });
+
     const { message, history = [], includeFinance = false } = await request.json();
 
     if (!message) {
