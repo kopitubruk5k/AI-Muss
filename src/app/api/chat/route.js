@@ -95,8 +95,8 @@ Jawab dengan jelas, ringkas, dan gunakan format yang mudah dibaca (gunakan poin/
       systemInstruction += `\n\nBerikut adalah data keuangan terkini pengguna (gunakan ini jika ditanya tentang keuangan mereka):\n${summary}`;
     }
 
-    // Build chat history for Gemini
-    const geminiHistory = history.map((msg) => ({
+    // Build chat history for Gemini (limit to last 10 turns to save tokens)
+    const geminiHistory = history.slice(-10).map((msg) => ({
       role: msg.role === 'user' ? 'user' : 'model',
       parts: [{ text: msg.content }],
     }));
@@ -113,6 +113,15 @@ Jawab dengan jelas, ringkas, dan gunakan format yang mudah dibaca (gunakan poin/
     return NextResponse.json({ reply: text });
   } catch (error) {
     console.error('Chat API Error:', error);
-    return NextResponse.json({ error: 'Gagal menghubungi AI. Cek API key.' }, { status: 500 });
+
+    // Detect rate limit (429)
+    const msg = error?.message || '';
+    if (msg.includes('429') || msg.toLowerCase().includes('quota') || msg.toLowerCase().includes('rate')) {
+      return NextResponse.json({
+        error: 'Batas penggunaan API tercapai (rate limit). Tunggu beberapa detik lalu coba lagi.'
+      }, { status: 429 });
+    }
+
+    return NextResponse.json({ error: 'Gagal menghubungi AI. Pastikan API key sudah benar.' }, { status: 500 });
   }
 }
