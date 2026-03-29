@@ -1,11 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import {
   FaWallet, FaBuildingColumns, FaArrowTrendUp, FaArrowTrendDown,
   FaPlus, FaMinus, FaPaperPlane, FaChartPie, FaRectangleList,
   FaTrashCan, FaCalendar, FaRegFolderOpen, FaChartSimple,
-  FaListCheck, FaClock, FaCheck
+  FaListCheck, FaClock, FaCheck, FaCalendarDays, FaChevronRight
 } from "react-icons/fa6";
 import toast from "react-hot-toast";
 import DatePicker, { registerLocale } from "react-datepicker";
@@ -28,7 +29,13 @@ const formatIDR = (num) => {
   }).format(num);
 };
 
+const MONTH_NAMES = [
+  "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+  "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+];
+
 export default function Dashboard() {
+  const router = useRouter();
   const [mounted, setMounted] = useState(false);
   const [transactions, setTransactions] = useState([]);
   const [text, setText] = useState("");
@@ -258,7 +265,7 @@ export default function Dashboard() {
       <header className="text-center py-4 animate-fade-in relative">
         <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-2 flex justify-center items-center gap-3">
           <FaWallet className="text-primary" />
-          Finance <span className="bg-gradient-to-br from-purple-500 to-blue-500 bg-clip-text text-transparent">Muss</span>
+          <span>Finance<span className="bg-gradient-to-br from-purple-500 to-blue-500 bg-clip-text text-transparent">MU</span></span>
         </h1>
         <p className="text-slate-400 text-lg mb-4">Sistem Pencatat Keuangan & Analisis Grafik</p>
       </header>
@@ -553,6 +560,40 @@ export default function Dashboard() {
           </div>
         </section>
 
+        {/* Monthly Navigation Section */}
+        <section className="glass-panel p-8 rounded-2xl">
+          <div className="flex items-center gap-3 mb-6 border-b border-white/10 pb-4">
+            <FaCalendarDays className="text-primary text-xl" />
+            <h2 className="text-2xl font-semibold">Laporan Per Bulan</h2>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+            {(() => {
+              // Generate last 12 months
+              const months = [];
+              const now = new Date();
+              for (let i = 0; i < 12; i++) {
+                const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+                const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+                const label = MONTH_NAMES[d.getMonth()];
+                const year = d.getFullYear();
+                months.push({ key, label, year });
+              }
+              return months.map(({ key, label, year }) => (
+                <button
+                  key={key}
+                  onClick={() => router.push(`/monthly/${key}`)}
+                  className="group flex flex-col items-center gap-1 p-4 rounded-xl bg-slate-900/40 border border-white/5 hover:border-primary/50 hover:bg-primary/10 transition-all hover:-translate-y-1"
+                >
+                  <span className="text-primary text-xl"><FaCalendarDays /></span>
+                  <span className="font-semibold text-sm text-white">{label}</span>
+                  <span className="text-xs text-slate-500">{year}</span>
+                  <FaChevronRight className="text-slate-500 group-hover:text-primary transition-colors text-xs mt-1" />
+                </button>
+              ));
+            })()}
+          </div>
+        </section>
+
         {/* Activities Section */}
         <section className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-4">
           <div className="glass-panel p-8 rounded-2xl">
@@ -629,7 +670,7 @@ export default function Dashboard() {
       </main>
 
       <footer className="text-center py-6 text-slate-500 text-sm">
-        <p>&copy; {new Date().getFullYear()} Finance Muss. Built with Next.js & Tailwind CSS.</p>
+        <p>&copy; {new Date().getFullYear()} FinanceMU. Built with Next.js & Tailwind CSS.</p>
       </footer>
     </div>
   );
