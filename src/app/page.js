@@ -6,7 +6,7 @@ import {
   FaWallet, FaBuildingColumns, FaArrowTrendUp, FaArrowTrendDown,
   FaPlus, FaMinus, FaPaperPlane, FaChartPie, FaRectangleList,
   FaTrashCan, FaCalendar, FaRegFolderOpen, FaChartSimple,
-  FaListCheck, FaClock, FaCheck, FaCalendarDays, FaChevronRight, FaRobot
+  FaListCheck, FaClock, FaCheck, FaCalendarDays, FaChevronRight
 } from "react-icons/fa6";
 import toast from "react-hot-toast";
 import DatePicker, { registerLocale } from "react-datepicker";
@@ -268,12 +268,6 @@ export default function Dashboard() {
           <span>Finance<span className="bg-gradient-to-br from-purple-500 to-blue-500 bg-clip-text text-transparent">MU</span></span>
         </h1>
         <p className="text-slate-400 text-lg mb-4">Sistem Pencatat Keuangan & Analisis Grafik</p>
-        <button
-          onClick={() => router.push('/ai')}
-          className="inline-flex items-center gap-2 mt-2 px-5 py-2.5 rounded-xl bg-primary/10 border border-primary/30 text-primary hover:bg-primary/20 hover:border-primary/60 transition-all text-sm font-semibold hover:-translate-y-0.5"
-        >
-          <FaRobot /> Tanya AI Assistant
-        </button>
       </header>
 
       <main className="flex flex-col gap-8">
